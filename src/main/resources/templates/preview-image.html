@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/css/preview-image.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="assets/js/jquery-3.6.0.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="image">
+                <img src="" alt="">
+            </div>
+            <div class="content">
+                <div class="icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="text">
+                    No file chosen, yet!
+                </div>
+            </div>
+            <div id="cancel-btn">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="file-name">
+                File name here
+            </div>
+        </div>
+        <button onclick="defaultBtnActive()" id="custom-btn">Choose a file</button>
+        <input id="default-btn" type="file" accept="image/jpeg, image/png" hidden />
+    </div>
+
+    <script>
+        // const wrapper = document.querySelector(".wrapper");
+        let wrapper = $(".wrapper");
+
+        // const fileName = document.querySelector(".file-name");
+        let fileName = $(".file-name");
+
+        // const defaultBtn = document.querySelector("#default-btn");
+        let defaultBtn = $("#default-btn");
+
+        // const customBtn = document.querySelector("#custom-btn");
+        let customBtn = $("#customBtn-btn");
+
+        // const cancelBtn = document.querySelector("#cancel-btn i");
+        let cancelBtn = $("#cancel-btn i");
+
+        // const img = document.querySelector("img");
+
+        let img = $("div.image img");
+        img.css("display", "none");
+
+        let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+        function defaultBtnActive(){
+            defaultBtn.click();
+        }
+
+        $("div.image").on("click", function () {
+            defaultBtn.click();
+        });
+
+        defaultBtn.on("change", function () {
+            // let file = event.target.files[0];
+            let file = defaultBtn[0].files[0];
+            let reader = new FileReader();
+
+            console.log(file);
+
+            if (file) {
+
+                reader.onload = function(e){
+                    img.attr("src", e.target.result);
+                    // img.src = e.target.result;
+                    img.css("display", "");
+                    // wrapper.classList.add("active");
+                    wrapper.addClass("active");
+                }
+
+                reader.readAsDataURL(file);
+
+                cancelBtn.on("click", function () {
+                    defaultBtn.val("");
+                    img.attr("src", "");
+                    img.css("display", "none");
+                    wrapper.removeClass("active");
+                });
+
+            } else {
+                defaultBtn.val("");
+                img.attr("src", "");
+                img.css("display", "none");
+                wrapper.removeClass("active");
+            }
+
+            if(this.value){
+                let valueStore = this.value.match(regExp);
+                // fileName.textContent = valueStore;
+                fileName.text(valueStore);
+            }
+        });
+
+
+        // defaultBtn.addEventListener("change", function(){
+        //     const file = this.files[0];
+        //     if(file){
+        //         const reader = new FileReader();
+        //
+        //         reader.onload = function(){
+        //             const result = reader.result;
+        //             img.src = result;
+        //             img.css("display", "");
+        //             wrapper.classList.add("active");
+        //         }
+        //
+        //         cancelBtn.addEventListener("click", function(){
+        //             img.src = "";
+        //             img.css("display", "none");
+        //             wrapper.classList.remove("active");
+        //         })
+        //
+        //         reader.readAsDataURL(file);
+        //     }
+        //     if(this.value){
+        //         let valueStore = this.value.match(regExp);
+        //         fileName.textContent = valueStore;
+        //     }
+        // });
+
+    </script>
+
+</body>
+</html>

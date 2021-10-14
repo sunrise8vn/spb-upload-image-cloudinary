@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/jquery-3.6.0.js"></script>
+    <script src="assets/js/jquery.validate-1.19.3.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sweetalert2.min.js"></script>
+    <script src="assets/js/magnific-popup-1.1.0.js"></script>
+    <script src="assets/js/app.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <h1>HOME</h1>
+
+        <textarea style="display:none" id="tempProduct">
+            <tr id="tr_{0}">
+                <td class="text-center">{0}</td>
+                <td>{1}</td>
+                <td>{2}</td>
+                <td class="text-center">
+<!--                    <img src="{3}" alt="{1}" />-->
+<!--                    <img src="{3}" alt="Image Preview" style="max-width: 150px; max-height: 75px;" />-->
+<!--                    <img class="lazy zoom image-preview" src="{3}" alt="{1}" data-image-folder="{4}" data-image-name="{5}">-->
+                    <a class="image-popup-vertical-fit" href="{3}" data-mfp-src="{3}" title="{1}">
+                        <img src="{4}" alt="{1}">
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-outline-danger delete" data-id="{0}" >
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </textarea>
+
+        <div class="box-body">
+            <form id="frmProduct" enctype="multipart/form-data">
+                <fieldset class="row g-3">
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" id="pName" name="pName" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Description</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="description" name="description" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Image</label>
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control num-space" id="pImage" name="pImage" accept="image/png, image/jpeg" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Thumbnail</label>
+                            <div class="col-sm-12">
+                                <img id="thumbnail" alt="Image Preview" style="max-width: 150px; max-height: 150px;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button type="button" id="btnSave" class="btn btn-outline-success">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+            <input type="hidden" id="currentRow"/>
+
+            <table id="tbListProducts" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="loader hide"></div>
+
+
+    <script>
+
+        let page = {
+            urls: {
+                getAllProducts: App.BASE_URL_PRODUCT,
+                doSave: App.BASE_URL_PRODUCT,
+                delete: App.BASE_URL_PRODUCT + "/delete/"
+            },
+            element: {},
+            commands: {},
+            loadData: {}
+        }
+
+        page.element.loader = $(".loader");
+        page.element.tempProduct = $("#tempProduct");
+        page.element.currentRow = $("#currentRow");
+        page.element.frmProduct = $("#frmProduct");
+
+        page.element.btnDelete = $("#tempProduct body");
+        page.element.btnSave = $("#btnSave");
+
+        page.element.frmListProduct = $("#tbListProducts tbody");
+
+        let product = new Product();
+
+        let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val()));
+
+        page.commands.addRow = () => {
+            let thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
+            let imageUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
+
+            page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, imageUrl, thumbnail)));
+        }
+
+        function showImageThumbnail(fileInput) {
+            let file = fileInput.files[0];
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#thumbnail").attr("src", e.target.result);
+            }
+
+            reader.readAsDataURL(file);
+        }
+
+        function saveNew() {
+            page.element.loader.removeClass("hide");
+            page.element.btnSave.prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append("name", $('#pName').val());
+            formData.append("description", $('#description').val());
+            formData.append("image", $('#pImage')[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                url: page.urls.doSave,
+                data: formData
+            }).done((data) => {
+                console.log(data);
+                product = data;
+
+                page.commands.addRow();
+
+                App.showSuccessAlert(App.SUCCESS_CREATED);
+
+                page.element.frmProduct[0].reset();
+
+            }).fail((jqXHR) => {
+                App.showErrorAlert(App.ERROR_404);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+                page.element.btnSave.prop('disabled', false);
+            });
+        }
+
+        // async function uploadFile() {
+        //     let formData = new FormData();
+        //     // formData.append("file", fileupload.files[0]);
+        //     formData.append("pName", $('#pName').val());
+        //     formData.append("description", $('#description').val());
+        //     formData.append("file", $('#pImage')[0].files[0]);
+        //     let response = await fetch('/users/upload', {
+        //         method: "POST",
+        //         body: formData
+        //     });
+        //
+        //
+        //     if (response.status === 200) {
+        //         alert("File successfully uploaded.");
+        //     } else {
+        //         alert("File error uploaded.");
+        //     }
+        // }
+
+        page.loadData.getAllProducts = () => {
+
+            return $.ajax({
+                type: "GET",
+                url: page.urls.getAllProducts,
+            }).done((data) => {
+
+                $.each(data, (index, item) => {
+                    product = item;
+                    page.commands.addRow();
+                });
+
+            }).fail(function () {
+                App.showErrorAlert(App.ERROR_404);
+            });
+        }
+
+        page.commands.deleteProduct = () => {
+            page.element.loader.removeClass("hide");
+
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: page.urls.delete + product.id,
+            }).done((data) => {
+
+                App.showSuccessAlert(App.SUCCESS_SUSPEND);
+
+                $("#tr_" + product.id).remove();
+
+            }).fail(function () {
+                App.showErrorAlert(App.ERROR_404);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+            });
+        }
+
+        page.commands.handleImagePopup = () => {
+            $('.image-popup-vertical-fit').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-img-mobile',
+                image: {
+                    verticalFit: true
+                }
+            });
+        }
+
+        page.commands.handleImagePopup();
+
+
+        page.initializeControlEvent = () => {
+            $("#pImage").change(function () {
+                showImageThumbnail(this);
+            });
+
+            page.element.btnSave.on("click", function () {
+                saveNew();
+            });
+
+            page.element.frmListProduct.on("click", ".delete", function () {
+                page.element.currentRow.val($(this).closest("tr").attr("id"));
+                product.id = $(this).data('id');
+                page.commands.deleteProduct();
+            });
+
+            // page.element.frmListProduct.on("click", ".image-preview", function () {
+            //     product.imageFolder = $(this).data('image-folder');
+            //     product.imageName = $(this).data('image-name');
+            //
+            //     let imageUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
+            //     Swal.fire({
+            //         imageUrl: imageUrl
+            //     })
+            // });
+
+            page.commands.handleImagePopup();
+
+        }
+
+        $(document).ready(function () {
+
+            page.loadData.getAllProducts();
+
+            page.initializeControlEvent();
+
+        });
+
+    </script>
+
+</body>
+</html>
