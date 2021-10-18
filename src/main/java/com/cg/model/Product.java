@@ -1,11 +1,11 @@
 package com.cg.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -15,28 +15,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Table(name = "products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     private String name;
 
     private String description;
 
-    @Column(name = "image_name")
-    private String imageName;
+    @Column(columnDefinition = "BIGINT(20) DEFAULT 0")
+    private Long ts = new Date().getTime();
 
-    @Column(name = "image_folder")
-    private String imageFolder;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
-    @Column(name = "cloud_id")
-    private String cloudId;
+    @OneToMany(mappedBy = "product")
+    private List<ImageProduct> imageProducts;
 
 
 }

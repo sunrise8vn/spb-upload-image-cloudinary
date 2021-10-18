@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/preview-image.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/jquery-3.6.0.js"></script>
     <script src="assets/js/jquery.validate-1.19.3.min.js"></script>
@@ -18,76 +20,67 @@
 <body>
     <div class="container">
 
-        <h1>HOME</h1>
-
-        <textarea style="display:none" id="tempProduct">
-            <tr id="tr_{0}">
-                <td class="text-center">{0}</td>
-                <td>{1}</td>
-                <td>{2}</td>
-                <td class="text-center">
-<!--                    <img src="{3}" alt="{1}" />-->
-<!--                    <img src="{3}" alt="Image Preview" style="max-width: 150px; max-height: 75px;" />-->
-<!--                    <img class="lazy zoom image-preview" src="{3}" alt="{1}" data-image-folder="{4}" data-image-name="{5}">-->
-                    <a class="image-popup-vertical-fit" href="{3}" data-mfp-src="{3}" title="{1}">
-                        <img src="{4}" alt="{1}">
-                    </a>
-                </td>
-                <td class="text-center">
-                    <a class="btn btn-outline-danger delete" data-id="{0}" >
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                        Delete
-                    </a>
-                </td>
-            </tr>
-        </textarea>
+        <header>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h1>List of products</h1>
+                </div>
+                <div class="col-sm-7">
+                    <a class="btn btn-outline-light create-modal"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add New Product</span></a>
+                </div>
+            </div>
+        </header>
 
         <div class="box-body">
-            <form id="frmProduct" enctype="multipart/form-data">
-                <fieldset class="row g-3">
-                    <div class="mb-3 col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-12 col-form-label">Name</label>
-                            <div class="col-sm-12">
-                                <input type="text" id="pName" name="pName" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-12 col-form-label">Description</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="description" name="description" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-12 col-form-label">Image</label>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control num-space" id="pImage" name="pImage" accept="image/png, image/jpeg" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-12 col-form-label">Thumbnail</label>
-                            <div class="col-sm-12">
-                                <img id="thumbnail" alt="Image Preview" style="max-width: 150px; max-height: 150px;" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <button type="button" id="btnSave" class="btn btn-outline-success">
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+<!--            <form id="frmProduct" enctype="multipart/form-data">-->
+<!--                <fieldset class="row g-3">-->
+<!--                    <div class="mb-3 col-md-6">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-12 col-form-label">Name</label>-->
+<!--                            <div class="col-sm-12">-->
+<!--                                <input type="text" id="pName" name="pName" class="form-control" />-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3 col-md-6">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-12 col-form-label">Description</label>-->
+<!--                            <div class="col-sm-12">-->
+<!--                                <input type="text" class="form-control" id="description" name="description" />-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3 col-md-6">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-12 col-form-label">Image</label>-->
+<!--                            <div class="col-sm-12">-->
+<!--                                <input type="file" class="form-control num-space" id="pImage" name="pImage" accept="image/png, image/jpeg" />-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3 col-md-6">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-12 col-form-label">Thumbnail</label>-->
+<!--                            <div class="col-sm-12">-->
+<!--                                <img id="thumbnail" alt="Image Preview" style="max-width: 150px; max-height: 150px;" />-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3 col-md-6">-->
+<!--                        <div class="form-group row">-->
+<!--                            <div class="col-sm-12">-->
+<!--                                <button type="button" id="btnSave" class="btn btn-outline-success">-->
+<!--                                    Save-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </fieldset>-->
+<!--            </form>-->
+
+            <th:block th:include="frm_list_table"/>
+
+            <th:block th:include="frm_create"/>
 
             <input type="hidden" id="currentRow"/>
 
@@ -107,9 +100,7 @@
         </div>
     </div>
 
-
     <div class="loader hide"></div>
-
 
     <script>
 
@@ -117,22 +108,39 @@
             urls: {
                 getAllProducts: App.BASE_URL_PRODUCT,
                 doSave: App.BASE_URL_PRODUCT,
-                delete: App.BASE_URL_PRODUCT + "/delete/"
+                doDelete: App.BASE_URL_PRODUCT + "/delete/"
             },
             element: {},
             commands: {},
-            loadData: {}
+            loadData: {},
+            dialogs: {
+                element: {},
+                commands: {}
+            }
         }
 
         page.element.loader = $(".loader");
         page.element.tempProduct = $("#tempProduct");
         page.element.currentRow = $("#currentRow");
-        page.element.frmProduct = $("#frmProduct");
+        page.element.btnShowCreateForm = $("a.create-modal");
 
         page.element.btnDelete = $("#tempProduct body");
         page.element.btnSave = $("#btnSave");
 
         page.element.frmListProduct = $("#tbListProducts tbody");
+
+        page.dialogs.element.modalCreateProduct = $("#modalCreateProduct");
+        page.dialogs.element.frmProduct = $("#frmProduct");
+
+        page.dialogs.element.wrapper = $("section .wrapper");
+        page.dialogs.element.productName = $("#productName");
+        page.dialogs.element.description = $("#description");
+        page.dialogs.element.imageFileName = $("section .file-name");
+        page.dialogs.element.imageFile = $("#imageFile");
+        page.dialogs.element.btnClearImagePreview = $("#btnClearImagePreview i");
+        page.dialogs.element.imagePreview = $("section .image-preview img");
+        page.dialogs.element.imagePreview.css("display", "none");
+        page.dialogs.element.divImagePreview = $("div.image-preview");
 
         let product = new Product();
 
@@ -145,69 +153,7 @@
             page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, imageUrl, thumbnail)));
         }
 
-        function showImageThumbnail(fileInput) {
-            let file = fileInput.files[0];
-            let reader = new FileReader();
 
-            reader.onload = function (e) {
-                $("#thumbnail").attr("src", e.target.result);
-            }
-
-            reader.readAsDataURL(file);
-        }
-
-        function saveNew() {
-            page.element.loader.removeClass("hide");
-            page.element.btnSave.prop('disabled', true);
-
-            let formData = new FormData();
-            formData.append("name", $('#pName').val());
-            formData.append("description", $('#description').val());
-            formData.append("image", $('#pImage')[0].files[0]);
-
-            $.ajax({
-                type: "POST",
-                contentType: false,
-                cache: false,
-                processData: false,
-                url: page.urls.doSave,
-                data: formData
-            }).done((data) => {
-                console.log(data);
-                product = data;
-
-                page.commands.addRow();
-
-                App.showSuccessAlert(App.SUCCESS_CREATED);
-
-                page.element.frmProduct[0].reset();
-
-            }).fail((jqXHR) => {
-                App.showErrorAlert(App.ERROR_404);
-            }).always(function () {
-                page.element.loader.addClass("hide");
-                page.element.btnSave.prop('disabled', false);
-            });
-        }
-
-        // async function uploadFile() {
-        //     let formData = new FormData();
-        //     // formData.append("file", fileupload.files[0]);
-        //     formData.append("pName", $('#pName').val());
-        //     formData.append("description", $('#description').val());
-        //     formData.append("file", $('#pImage')[0].files[0]);
-        //     let response = await fetch('/users/upload', {
-        //         method: "POST",
-        //         body: formData
-        //     });
-        //
-        //
-        //     if (response.status === 200) {
-        //         alert("File successfully uploaded.");
-        //     } else {
-        //         alert("File error uploaded.");
-        //     }
-        // }
 
         page.loadData.getAllProducts = () => {
 
@@ -226,6 +172,90 @@
             });
         }
 
+        page.commands.showCreateModal = () => {
+            page.dialogs.element.modalCreateProduct.modal('show');
+        }
+
+        page.commands.showDeleteConfirm = () => {
+            App.showDeleteConfirmDialog()
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        page.commands.deleteProduct();
+                    }
+                });
+        }
+
+        page.dialogs.commands.changeImagePreview = () => {
+            let imageFile = page.dialogs.element.imageFile[0].files[0];
+            let imageName = page.dialogs.element.imageFile;
+            let reader = new FileReader();
+
+            if (imageFile) {
+
+                reader.onload = function(e){
+                    page.dialogs.element.imagePreview.attr("src", e.target.result);
+                    page.dialogs.element.imagePreview.css("display", "");
+                    page.dialogs.element.wrapper.addClass("active");
+                }
+
+                reader.readAsDataURL(imageFile);
+
+                page.dialogs.element.btnClearImagePreview.on("click", function () {
+                    page.dialogs.element.imageFile.val("");
+                    page.dialogs.element.imagePreview.attr("src", "");
+                    page.dialogs.element.imagePreview.css("display", "none");
+                    page.dialogs.element.wrapper.removeClass("active");
+                });
+
+            } else {
+                page.dialogs.element.imageFile.val("");
+                page.dialogs.element.imagePreview.attr("src", "");
+                page.dialogs.element.imagePreview.css("display", "none");
+                page.dialogs.element.wrapper.removeClass("active");
+            }
+
+            if(imageName.val()){
+                let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                let valueStore = imageName.val().match(regExp);
+                page.dialogs.element.imageFileName.text(valueStore);
+            }
+        }
+
+        page.dialogs.commands.createProduct = () => {
+            page.element.loader.removeClass("hide");
+            page.element.btnSave.prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append("name", page.dialogs.element.productName.val());
+            formData.append("description", page.dialogs.element.description.val());
+            formData.append("image", page.dialogs.element.imageFile[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                url: page.urls.doSave,
+                data: formData
+            }).done((data) => {
+                product = data;
+
+                page.commands.addRow();
+
+                App.showSuccessAlert(App.SUCCESS_CREATED);
+
+                page.dialogs.element.modalCreateProduct.modal('hide');
+
+                page.commands.handleImagePopup();
+
+            }).fail(() => {
+                App.showErrorAlert(App.ERROR_404);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+                page.element.btnSave.prop('disabled', false);
+            });
+        }
+
         page.commands.deleteProduct = () => {
             page.element.loader.removeClass("hide");
 
@@ -235,58 +265,67 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                url: page.urls.delete + product.id,
+                url: page.urls.doDelete + product.id,
             }).done((data) => {
 
                 App.showSuccessAlert(App.SUCCESS_SUSPEND);
 
-                $("#tr_" + product.id).remove();
+                $("#" + product.id).remove();
 
-            }).fail(function () {
-                App.showErrorAlert(App.ERROR_404);
+                page.commands.handleImagePopup();
+
+            }).fail(function (jqXHR) {
+                App.showErrorAlert(jqXHR.responseJSON.message);
             }).always(function () {
                 page.element.loader.addClass("hide");
             });
         }
 
         page.commands.handleImagePopup = () => {
+
             $('.image-popup-vertical-fit').magnificPopup({
                 type: 'image',
                 closeOnContentClick: true,
-                mainClass: 'mfp-img-mobile',
+                mainClass: 'mfp-img',
                 image: {
                     verticalFit: true
+                },
+                gallery:{
+                    enabled:true
                 }
             });
         }
 
-        page.commands.handleImagePopup();
+        page.dialogs.element.modalCreateProduct.on("hidden.bs.modal", function () {
+            page.dialogs.element.frmProduct[0].reset();
+            page.dialogs.element.btnClearImagePreview.click();
+        });
 
 
         page.initializeControlEvent = () => {
-            $("#pImage").change(function () {
-                showImageThumbnail(this);
+
+            page.element.btnShowCreateForm.on("click", function () {
+                delete product.id;
+                page.commands.showCreateModal();
             });
 
             page.element.btnSave.on("click", function () {
-                saveNew();
+                page.dialogs.commands.createProduct();
             });
 
             page.element.frmListProduct.on("click", ".delete", function () {
-                page.element.currentRow.val($(this).closest("tr").attr("id"));
+                // page.element.currentRow.val($(this).closest("tr").attr("id"));
                 product.id = $(this).data('id');
-                page.commands.deleteProduct();
+                page.commands.showDeleteConfirm();
             });
 
-            // page.element.frmListProduct.on("click", ".image-preview", function () {
-            //     product.imageFolder = $(this).data('image-folder');
-            //     product.imageName = $(this).data('image-name');
-            //
-            //     let imageUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
-            //     Swal.fire({
-            //         imageUrl: imageUrl
-            //     })
-            // });
+            page.dialogs.element.divImagePreview.on("click", function () {
+                page.dialogs.element.imageFile.click();
+            });
+
+            page.dialogs.element.imageFile.on("change", function () {
+                page.dialogs.commands.changeImagePreview();
+            });
 
             page.commands.handleImagePopup();
 
@@ -294,9 +333,9 @@
 
         $(document).ready(function () {
 
-            page.loadData.getAllProducts();
-
-            page.initializeControlEvent();
+            page.loadData.getAllProducts().then(function () {
+                page.initializeControlEvent();
+            });
 
         });
 

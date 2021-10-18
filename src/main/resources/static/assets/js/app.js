@@ -19,14 +19,14 @@ class App {
     static SUCCESS_UPDATED = "Data update successful !";
     static SUCCESS_SUSPEND = "Succeeded client suspension !";
 
-    static showSuspendedConfirmDialog() {
+    static showDeleteConfirmDialog() {
         return Swal.fire({
             icon: 'warning',
-            text: 'Are you sure to suspend the selected customer ?',
+            text: 'Are you sure to delete the selected product ?',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, please suspend this client !',
+            confirmButtonText: 'Yes, please delete this client !',
             cancelButtonText: 'Cancel',
         })
     }

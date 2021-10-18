@@ -3,6 +3,7 @@ package com.cg.controller.api;
 
 import com.cg.exception.DataInputException;
 import com.cg.model.Product;
+import com.cg.model.dto.IProductDTO;
 import com.cg.model.dto.ProductDTO;
 import com.cg.service.IProductService;
 import com.cg.util.FileUploadUtil;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -27,13 +29,15 @@ public class ProductAPI {
     @GetMapping
     public ResponseEntity<Iterable<?>> findAll() {
         try {
-            Iterable<Product> products = productService.findAll();
+//            Iterable<Product> products = productService.findAll();
 
-            if (((List) products).isEmpty()) {
+            Iterable<IProductDTO> productDTOS = productService.findAllIProductDTO();
+
+            if (((List) productDTOS).isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(products, HttpStatus.OK);
+            return new ResponseEntity<>(productDTOS, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,19 +47,12 @@ public class ProductAPI {
     @PostMapping
     public ResponseEntity<?> create(ProductDTO productDTO) {
 
-//        String fileName = fileImage.getOriginalFilename();
-//        String email = product.getEmail();
-
         try {
-//            String uploadDir = "./uploads/";
-
-//            FileUploadUtil.saveFile(uploadDir, fileName, fileImage);
-
-//            productDTO.setImage(fileName);
-
             Product createdProduct = productService.create(productDTO);
 
-            return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+            IProductDTO iProductDTO =  productService.findIProductDTOById(createdProduct.getId());
+
+            return new ResponseEntity<>(iProductDTO, HttpStatus.CREATED);
 
         } catch (DataIntegrityViolationException e) {
             throw new DataInputException("Product creation information is not valid, please check the information again");
@@ -63,14 +60,15 @@ public class ProductAPI {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) throws IOException {
+    public ResponseEntity<?> delete(@PathVariable String id) throws IOException {
 
-        try {
-            productService.delete(id);
+        Optional<Product> product = productService.findById(id);
+
+        if (product.isPresent()) {
+            productService.delete(product.get());
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-
-        } catch (DataIntegrityViolationException e) {
+        } else {
             throw new DataInputException("Invalid product information");
         }
     }

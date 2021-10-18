@@ -11,7 +11,7 @@
 
     <div class="container">
         <div class="wrapper">
-            <div class="image">
+            <div class="image-preview">
                 <img src="" alt="">
             </div>
             <div class="content">
@@ -22,7 +22,7 @@
                     No file chosen, yet!
                 </div>
             </div>
-            <div id="cancel-btn">
+            <div id="btnClearImagePreview">
                 <i class="fas fa-times"></i>
             </div>
             <div class="file-name">
@@ -47,11 +47,11 @@
         let customBtn = $("#customBtn-btn");
 
         // const cancelBtn = document.querySelector("#cancel-btn i");
-        let cancelBtn = $("#cancel-btn i");
+        let cancelBtn = $("#btnClearImagePreview i");
 
         // const img = document.querySelector("img");
 
-        let img = $("div.image img");
+        let img = $("div.image-preview img");
         img.css("display", "none");
 
         let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
@@ -60,7 +60,7 @@
             defaultBtn.click();
         }
 
-        $("div.image").on("click", function () {
+        $("div.image-preview").on("click", function () {
             defaultBtn.click();
         });
 
