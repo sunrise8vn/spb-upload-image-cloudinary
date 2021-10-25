@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productRepository.save(productDTO.toProduct());
 
-        ProductMedia productMedia = productMediaRepository.save(productDTO.toProductImageVideo());
+        ProductMedia productMedia = productMediaRepository.save(productDTO.toProductMedia());
 
         if (fileType.equals(FileType.IMAGE.getValue())) {
             uploadAndSaveProductImage(productDTO, product, productMedia);

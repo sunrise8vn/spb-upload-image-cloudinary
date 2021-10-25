@@ -36,7 +36,7 @@ public class ProductDTO {
                 .setDescription(description);
     }
 
-    public ProductMedia toProductImageVideo() {
+    public ProductMedia toProductMedia() {
         return new ProductMedia()
                 .setId(fileProductId)
                 .setFileName(fileName)
