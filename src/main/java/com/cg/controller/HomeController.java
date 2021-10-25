@@ -15,13 +15,4 @@ public class HomeController {
         return new ModelAndView("index");
     }
 
-    @GetMapping("/preview-image")
-    public ModelAndView getPreviewImage() {
-        return new ModelAndView("preview-image");
-    }
-
-    @GetMapping("/preview-image-2")
-    public ModelAndView getPreviewImage2() {
-        return new ModelAndView("preview-image-2");
-    }
 }

@@ -2,10 +2,6 @@ class App {
 
     static DOMAIN = location.origin;
 
-    static BASE_URL_AUTH = this.DOMAIN + "/api/auth";
-    static BASE_URL_CUSTOMER = this.DOMAIN + "/api/customers";
-    static BASE_URL_TRANSFER = this.DOMAIN + "/api/transfers";
-
     static BASE_URL_PRODUCT = this.DOMAIN + "/api/products";
 
     static BASE_URL_CLOUD_IMAGE = "https://res.cloudinary.com/toanphat/image/upload";
@@ -83,16 +79,6 @@ class App {
     }
 }
 
-
-// class Product {
-//     constructor(id, name, description, imageName, imageFolder) {
-//         this.id = id;
-//         this.name = name;
-//         this.description = description;
-//         this.imageName = imageName;
-//         this.imageFolder = imageFolder;
-//     }
-// }
 
 class Product {
     constructor(id, name, description, fileId, fileName, fileFolder, fileType) {

@@ -2,9 +2,7 @@ package com.cg.model.enumModel;
 
 public enum FileType {
     IMAGE("image"),
-    VIDEO("video"),
-    SIZE("250");
-
+    VIDEO("video");
 
     private final String value;
 
