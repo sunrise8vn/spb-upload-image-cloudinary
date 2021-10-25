@@ -5,14 +5,12 @@ import com.cg.exception.DataInputException;
 import com.cg.model.Product;
 import com.cg.model.dto.IProductDTO;
 import com.cg.model.dto.ProductDTO;
-import com.cg.service.IProductService;
-import com.cg.util.FileUploadUtil;
+import com.cg.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,20 +22,18 @@ import java.util.Optional;
 public class ProductAPI {
 
     @Autowired
-    IProductService productService;
+    ProductService productService;
 
     @GetMapping
     public ResponseEntity<Iterable<?>> findAll() {
         try {
-//            Iterable<Product> products = productService.findAll();
+            Iterable<IProductDTO> iProductDTOS = productService.findAllIProductDTO();
 
-            Iterable<IProductDTO> productDTOS = productService.findAllIProductDTO();
-
-            if (((List) productDTOS).isEmpty()) {
+            if (((List) iProductDTOS).isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(productDTOS, HttpStatus.OK);
+            return new ResponseEntity<>(iProductDTOS, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

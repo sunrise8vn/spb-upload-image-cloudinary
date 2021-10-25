@@ -147,12 +147,18 @@
         let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val()));
 
         page.commands.addRow = () => {
-            let thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
-            let imageUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.imageFolder + "/" + product.imageName;
+            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
+            let video_thumbnail = App.BASE_URL_CLOUD_VIDEO + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileId + ".jpg";
+            let fileUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
 
-            page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, imageUrl, thumbnail)));
+            if (product.fileType === "image") {
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, fileUrl, image_thumbnail)));
+            }
+
+            if (product.fileType === "video") {
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, fileUrl, video_thumbnail)));
+            }
         }
-
 
 
         page.loadData.getAllProducts = () => {
@@ -161,6 +167,8 @@
                 type: "GET",
                 url: page.urls.getAllProducts,
             }).done((data) => {
+
+                console.log(data)
 
                 $.each(data, (index, item) => {
                     product = item;
@@ -228,7 +236,7 @@
             let formData = new FormData();
             formData.append("name", page.dialogs.element.productName.val());
             formData.append("description", page.dialogs.element.description.val());
-            formData.append("image", page.dialogs.element.imageFile[0].files[0]);
+            formData.append("file", page.dialogs.element.imageFile[0].files[0]);
 
             $.ajax({
                 type: "POST",
@@ -238,6 +246,7 @@
                 url: page.urls.doSave,
                 data: formData
             }).done((data) => {
+                console.log(data)
                 product = data;
 
                 page.commands.addRow();

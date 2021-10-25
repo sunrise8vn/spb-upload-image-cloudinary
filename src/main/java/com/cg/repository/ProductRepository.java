@@ -13,27 +13,31 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
 
     @Query("SELECT " +
-            "ip.product.id AS id, " +
-            "ip.product.name AS name, " +
-            "ip.product.description as description, " +
-            "ip.imageName AS imageName, " +
-            "ip.imageFolder AS imageFolder, " +
-            "ip.imageUrl AS imageUrl " +
-            "FROM ImageProduct ip " +
-            "ORDER BY ip.product.ts ASC"
+            "pm.product.id AS id, " +
+            "pm.product.name AS name, " +
+            "pm.product.description AS description, " +
+            "pm.id AS fileId, " +
+            "pm.fileName AS fileName, " +
+            "pm.fileFolder AS fileFolder, " +
+            "pm.fileUrl AS fileUrl, " +
+            "pm.fileType AS fileType " +
+            "FROM ProductMedia pm " +
+            "ORDER BY pm.product.ts ASC"
     )
     Iterable<IProductDTO> findAllIProductDTO();
 
 
     @Query("SELECT " +
-            "ip.product.id AS id, " +
-            "ip.product.name AS name, " +
-            "ip.product.description as description, " +
-            "ip.imageName AS imageName, " +
-            "ip.imageFolder AS imageFolder, " +
-            "ip.imageUrl AS imageUrl " +
-            "FROM ImageProduct ip " +
-            "WHERE ip.product.id = :id"
+            "pm.product.id AS id, " +
+            "pm.product.name AS name, " +
+            "pm.product.description AS description, " +
+            "pm.id AS fileId, " +
+            "pm.fileName AS fileName, " +
+            "pm.fileFolder AS fileFolder, " +
+            "pm.fileUrl AS fileUrl, " +
+            "pm.fileType AS fileType " +
+            "FROM ProductMedia pm " +
+            "WHERE pm.product.id = :id"
     )
     IProductDTO findIProductDTOById(@Param("id") String id);
 

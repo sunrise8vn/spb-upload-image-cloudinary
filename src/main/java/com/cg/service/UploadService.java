@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public interface UploadService {
-    Map upload(MultipartFile multipartFile, Map params) throws IOException;
+    Map uploadImage(MultipartFile multipartFile, Map params) throws IOException;
 
-    Map destroy(String publicId, Map params) throws IOException;
+    Map destroyImage(String publicId, Map params) throws IOException;
+
+    Map uploadVideo(MultipartFile multipartFile, Map params) throws IOException;
+
+    Map destroyVideo(String publicId, Map params) throws IOException;
 }

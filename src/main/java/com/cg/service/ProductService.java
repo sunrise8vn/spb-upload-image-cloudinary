@@ -1,6 +1,5 @@
 package com.cg.service;
 
-import com.cg.model.ImageProduct;
 import com.cg.model.Product;
 import com.cg.model.dto.IProductDTO;
 import com.cg.model.dto.ProductDTO;
@@ -8,7 +7,7 @@ import com.cg.model.dto.ProductDTO;
 import java.io.IOException;
 import java.util.Optional;
 
-public interface IProductService {
+public interface ProductService {
 
     Iterable<Product> findAll();
 

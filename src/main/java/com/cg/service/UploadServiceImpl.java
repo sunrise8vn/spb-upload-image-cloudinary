@@ -15,13 +15,22 @@ public class UploadServiceImpl implements UploadService {
     private Cloudinary cloudinary;
 
     @Override
-    public Map upload(MultipartFile multipartFile, Map options) throws IOException {
+    public Map uploadImage(MultipartFile multipartFile, Map options) throws IOException {
         return cloudinary.uploader().upload(multipartFile.getBytes(), options);
     }
 
     @Override
-    public Map destroy(String publicId, Map options) throws IOException {
+    public Map destroyImage(String publicId, Map options) throws IOException {
         return cloudinary.uploader().destroy(publicId, options);
     }
 
+    @Override
+    public Map uploadVideo(MultipartFile multipartFile, Map options) throws IOException {
+        return cloudinary.uploader().upload(multipartFile.getBytes(), options);
+    }
+
+    @Override
+    public Map destroyVideo(String publicId, Map options) throws IOException {
+        return cloudinary.uploader().destroy(publicId, options);
+    }
 }

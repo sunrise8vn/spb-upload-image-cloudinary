@@ -9,6 +9,7 @@ class App {
     static BASE_URL_PRODUCT = this.DOMAIN + "/api/products";
 
     static BASE_URL_CLOUD_IMAGE = "https://res.cloudinary.com/toanphat/image/upload";
+    static BASE_URL_CLOUD_VIDEO = "https://res.cloudinary.com/toanphat/video/upload";
     static BASE_SCALE_IMAGE = "c_limit,w_150,h_100,q_100";
 
     static ERROR_400 = "Giao dịch không thành công, vui lòng kiểm tra lại dữ liệu.";
@@ -83,12 +84,24 @@ class App {
 }
 
 
+// class Product {
+//     constructor(id, name, description, imageName, imageFolder) {
+//         this.id = id;
+//         this.name = name;
+//         this.description = description;
+//         this.imageName = imageName;
+//         this.imageFolder = imageFolder;
+//     }
+// }
+
 class Product {
-    constructor(id, name, description, imageName, imageFolder) {
+    constructor(id, name, description, fileId, fileName, fileFolder, fileType) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.imageName = imageName;
-        this.imageFolder = imageFolder;
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.fileFolder = fileFolder;
+        this.fileType = fileType;
     }
 }

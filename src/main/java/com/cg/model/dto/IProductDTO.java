@@ -6,7 +6,9 @@ public interface IProductDTO {
     String getId();
     String getName();
     String getDescription();
-    String getImageName();
-    String getImageFolder();
-    String getImageUrl();
+    String getFileId();
+    String getFileName();
+    String getFileFolder();
+    String getFileUrl();
+    String getFileType();
 }

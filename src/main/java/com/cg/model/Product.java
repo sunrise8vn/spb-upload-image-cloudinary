@@ -32,7 +32,7 @@ public class Product {
 
 
     @OneToMany(mappedBy = "product")
-    private List<ImageProduct> imageProducts;
+    private List<ProductMedia> productMedia;
 
 
 }

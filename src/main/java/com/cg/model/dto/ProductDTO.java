@@ -1,8 +1,7 @@
 package com.cg.model.dto;
 
-import com.cg.model.ImageProduct;
 import com.cg.model.Product;
-import com.cg.utils.UploadUtils;
+import com.cg.model.ProductMedia;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,17 +15,19 @@ public class ProductDTO {
 
     private String description;
 
-    private String imageName;
+    private String fileName;
 
-    private String imageFolder = UploadUtils.UPLOAD_FOLDER;
+    private String fileFolder;
 
-    private String imageUrl;
+    private String fileUrl;
 
     private String cloudId;
 
-    private String imageProductId;
+    private String fileProductId;
 
-    private MultipartFile image;
+    private MultipartFile file;
+
+    private String fileType;
 
     public Product toProduct() {
         return new Product()
@@ -35,12 +36,13 @@ public class ProductDTO {
                 .setDescription(description);
     }
 
-    public ImageProduct toImageProduct() {
-        return new ImageProduct()
-                .setId(imageProductId)
-                .setImageName(imageName)
-                .setImageFolder(imageFolder)
-                .setImageUrl(imageUrl)
-                .setCloudId(cloudId);
+    public ProductMedia toProductImageVideo() {
+        return new ProductMedia()
+                .setId(fileProductId)
+                .setFileName(fileName)
+                .setFileFolder(fileFolder)
+                .setFileUrl(fileUrl)
+                .setCloudId(cloudId)
+                .setFileType(fileType);
     }
 }
