@@ -6,7 +6,7 @@ import com.cg.model.Product;
 import com.cg.model.ProductMedia;
 import com.cg.model.dto.IProductDTO;
 import com.cg.model.dto.ProductDTO;
-import com.cg.model.enumModel.FileType;
+import com.cg.model.enums.FileType;
 import com.cg.repository.ProductMediaRepository;
 import com.cg.repository.ProductRepository;
 import com.cg.utils.UploadUtils;
@@ -129,12 +129,12 @@ public class ProductServiceImpl implements ProductService {
         if (productImageVideo.isPresent()) {
             String publicId = productImageVideo.get().getCloudId();
 
-            if (productImageVideo.get().getFileType().equals("image")) {
+            if (productImageVideo.get().getFileType().equals(FileType.IMAGE.getValue())) {
                 uploadService.destroyImage(publicId, uploadUtils.buildImageDestroyParams(product, publicId));
             }
 
-            if (productImageVideo.get().getFileType().equals("video")) {
-                uploadService.destroyVideo(publicId, uploadUtils.buildImageDestroyParams(product, publicId));
+            if (productImageVideo.get().getFileType().equals(FileType.VIDEO.getValue())) {
+                uploadService.destroyVideo(publicId, uploadUtils.buildVideoDestroyParams(product, publicId));
             }
 
             productMediaRepository.delete(productImageVideo.get());

@@ -1,4 +1,4 @@
-package com.cg.util;
+package com.cg.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class FileUploadUtil {
+public class FileUploadUtils {
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 
 //        String rootFolder = "src/main/resources/static/";

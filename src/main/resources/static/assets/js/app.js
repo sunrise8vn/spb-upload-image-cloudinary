@@ -14,7 +14,7 @@ class App {
     static ERROR_500 = "Lưu dữ liệu không thành công, vui lòng liên hệ quản trị hệ thống.";
     static SUCCESS_CREATED = "Successful data generation !";
     static SUCCESS_UPDATED = "Data update successful !";
-    static SUCCESS_SUSPEND = "Succeeded client suspension !";
+    static SUCCESS_DELETED = "Delete product successfully !";
 
     static showDeleteConfirmDialog() {
         return Swal.fire({
@@ -44,38 +44,6 @@ class App {
             title: 'Warning',
             text: t,
         })
-    }
-
-    static showError403() {
-        Swal.fire({
-            icon: 'error',
-            title: 'Access Denied',
-            text: 'You are not authorized to perform this function!',
-        })
-    }
-
-    static formatNumber() {
-        $(".num-space").number(true, 0, ',', ' ');
-        $(".num-point").number(true, 0, ',', '.');
-        $(".num-comma").number(true, 0, ',', ',');
-    }
-
-    static formatNumberSpace(x) {
-        if (x == null) {
-            return x;
-        }
-        return x.toString().replace(/ /g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-
-    static removeFormatNumberSpace(x) {
-        if (x == null) {
-            return x;
-        }
-        return x.toString().replace(/ /g, "")
-    }
-
-    static formatTooltip() {
-        $('[data-toggle="tooltip"]').tooltip();
     }
 }
 

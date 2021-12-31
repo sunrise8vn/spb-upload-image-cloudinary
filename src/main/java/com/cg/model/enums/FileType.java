@@ -1,4 +1,4 @@
-package com.cg.model.enumModel;
+package com.cg.model.enums;
 
 public enum FileType {
     IMAGE("image"),

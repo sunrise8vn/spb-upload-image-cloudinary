@@ -104,14 +104,18 @@
         page.commands.addRow = () => {
             let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
             let video_thumbnail = App.BASE_URL_CLOUD_VIDEO + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileId + ".jpg";
-            let fileUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
+            let imageFileUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
+            let videoFileUrl = App.BASE_URL_CLOUD_VIDEO + "/" + product.fileFolder + "/" + product.fileName;
+
 
             if (product.fileType === "image") {
-                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, fileUrl, image_thumbnail)));
+                let aClass = "image-popup-vertical-fit";
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, imageFileUrl, image_thumbnail, aClass)));
             }
 
             if (product.fileType === "video") {
-                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, fileUrl, video_thumbnail)));
+                let aClass = "popup-vimeo";
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, videoFileUrl, video_thumbnail, aClass)));
             }
         }
 
@@ -178,7 +182,8 @@
             }
 
             if(imageName.val()){
-                let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                // let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                let regExp = /[0-9a-zA-Z^&'@{}\[\],$=!\-#().%+~_ ]+$/;
                 let valueStore = imageName.val().match(regExp);
                 page.dialogs.element.imageFileName.text(valueStore);
             }
@@ -189,8 +194,8 @@
             page.element.btnSave.prop('disabled', true);
 
             let formData = new FormData();
-            formData.append("name", page.dialogs.element.productName.val());
-            formData.append("description", page.dialogs.element.description.val());
+            formData.append("name", page.dialogs.element.productName.val().toString());
+            formData.append("description", page.dialogs.element.description.val().toString());
             formData.append("file", page.dialogs.element.imageFile[0].files[0]);
 
             $.ajax({
@@ -232,7 +237,7 @@
                 url: page.urls.doDelete + product.id,
             }).done((data) => {
 
-                App.showSuccessAlert(App.SUCCESS_SUSPEND);
+                App.showSuccessAlert(App.SUCCESS_DELETED);
 
                 $("#" + product.id).remove();
 
@@ -257,6 +262,16 @@
                 gallery:{
                     enabled:true
                 }
+            });
+
+            $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+
+                fixedContentPos: false
             });
         }
 
