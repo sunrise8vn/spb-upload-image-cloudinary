@@ -21,8 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "pm.fileFolder AS fileFolder, " +
             "pm.fileUrl AS fileUrl, " +
             "pm.fileType AS fileType " +
-            "FROM ProductMedia pm " +
-            "ORDER BY pm.product.ts ASC"
+        "FROM ProductMedia pm " +
+        "ORDER BY pm.product.ts ASC"
     )
     Iterable<IProductDTO> findAllIProductDTO();
 
@@ -36,8 +36,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "pm.fileFolder AS fileFolder, " +
             "pm.fileUrl AS fileUrl, " +
             "pm.fileType AS fileType " +
-            "FROM ProductMedia pm " +
-            "WHERE pm.product.id = :id"
+        "FROM ProductMedia pm " +
+        "WHERE pm.product.id = :id"
     )
     IProductDTO findIProductDTOById(@Param("id") String id);
 

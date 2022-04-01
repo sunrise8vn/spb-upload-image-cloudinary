@@ -9,13 +9,6 @@
     <link rel="stylesheet" href="assets/css/preview-image.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/jquery-3.6.0.js"></script>
-    <script src="assets/js/jquery.validate-1.19.3.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/sweetalert2.min.js"></script>
-    <script src="assets/js/magnific-popup-1.1.0.js"></script>
-    <script src="assets/js/app.js"></script>
-
 </head>
 <body>
     <div class="container">
@@ -26,7 +19,10 @@
                     <h1>List of products</h1>
                 </div>
                 <div class="col-sm-7">
-                    <a class="btn btn-outline-light create-modal"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add New Product</span></a>
+                    <a class="btn btn-outline-light create-modal">
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                        <span> Add New Product</span>
+                    </a>
                 </div>
             </div>
         </header>
@@ -56,6 +52,13 @@
     </div>
 
     <div class="loader hide"></div>
+
+    <script src="assets/js/jquery-3.6.0.js"></script>
+    <script src="assets/js/jquery.validate-1.19.3.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sweetalert2.min.js"></script>
+    <script src="assets/js/magnific-popup-1.1.0.js"></script>
+    <script src="assets/js/app.js"></script>
 
     <script>
 
@@ -90,23 +93,24 @@
         page.dialogs.element.wrapper = $("section .wrapper");
         page.dialogs.element.productName = $("#productName");
         page.dialogs.element.description = $("#description");
-        page.dialogs.element.imageFileName = $("section .file-name");
         page.dialogs.element.imageFile = $("#imageFile");
-        page.dialogs.element.btnClearImagePreview = $("#btnClearImagePreview i");
-        page.dialogs.element.imagePreview = $("section .image-preview img");
+        page.dialogs.element.wrapperContent = $("section .wrapper .content");
+        page.dialogs.element.imagePreview = $("section .image-preview canvas");
+        page.dialogs.element.canvas = $("#canvas");
+        page.dialogs.element.context = page.dialogs.element.canvas[0].getContext('2d');
         page.dialogs.element.imagePreview.css("display", "none");
-        page.dialogs.element.divImagePreview = $("div.image-preview");
+        page.dialogs.element.divImagePreview = $("div.image-preview, div.file-name");
+        page.dialogs.element.btnClearImagePreview = $(".clear-image-preview i");
 
         let product = new Product();
 
-        let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val()));
+        let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val().toString()));
 
         page.commands.addRow = () => {
             let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
             let video_thumbnail = App.BASE_URL_CLOUD_VIDEO + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileId + ".jpg";
             let imageFileUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
             let videoFileUrl = App.BASE_URL_CLOUD_VIDEO + "/" + product.fileFolder + "/" + product.fileName;
-
 
             if (product.fileType === "image") {
                 let aClass = "image-popup-vertical-fit";
@@ -119,15 +123,12 @@
             }
         }
 
-
         page.loadData.getAllProducts = () => {
 
             return $.ajax({
                 type: "GET",
                 url: page.urls.getAllProducts,
             }).done((data) => {
-
-                console.log(data)
 
                 $.each(data, (index, item) => {
                     product = item;
@@ -152,40 +153,37 @@
                 });
         }
 
+        page.dialogs.commands.loadImageToCanvas = (imageFile) => {
+            page.dialogs.element.imagePreview.css("display", "");
+            page.dialogs.element.wrapper.addClass("active");
+            page.dialogs.element.wrapperContent.css("opacity", 0);
+
+            let imageObj = new Image();
+
+            imageObj.onload = function () {
+                page.dialogs.element.context.canvas.width = imageObj.width;
+                page.dialogs.element.context.canvas.height = imageObj.height;
+                page.dialogs.element.context.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
+            };
+
+            imageObj.src = URL.createObjectURL(imageFile)
+        }
+
         page.dialogs.commands.changeImagePreview = () => {
             let imageFile = page.dialogs.element.imageFile[0].files[0];
-            let imageName = page.dialogs.element.imageFile;
-            let reader = new FileReader();
 
             if (imageFile) {
-
-                reader.onload = function(e){
-                    page.dialogs.element.imagePreview.attr("src", e.target.result);
-                    page.dialogs.element.imagePreview.css("display", "");
-                    page.dialogs.element.wrapper.addClass("active");
-                }
+                let reader = new FileReader();
 
                 reader.readAsDataURL(imageFile);
 
-                page.dialogs.element.btnClearImagePreview.on("click", function () {
-                    page.dialogs.element.imageFile.val("");
-                    page.dialogs.element.imagePreview.attr("src", "");
-                    page.dialogs.element.imagePreview.css("display", "none");
-                    page.dialogs.element.wrapper.removeClass("active");
-                });
-
+                reader.onload = function(e){
+                    if (e.target.readyState === FileReader.DONE) {
+                        page.dialogs.commands.loadImageToCanvas(imageFile);
+                    }
+                }
             } else {
-                page.dialogs.element.imageFile.val("");
-                page.dialogs.element.imagePreview.attr("src", "");
-                page.dialogs.element.imagePreview.css("display", "none");
-                page.dialogs.element.wrapper.removeClass("active");
-            }
-
-            if(imageName.val()){
-                // let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-                let regExp = /[0-9a-zA-Z^&'@{}\[\],$=!\-#().%+~_ ]+$/;
-                let valueStore = imageName.val().match(regExp);
-                page.dialogs.element.imageFileName.text(valueStore);
+                page.dialogs.element.clearImagePreview();
             }
         }
 
@@ -217,7 +215,8 @@
 
                 page.commands.handleImagePopup();
 
-            }).fail(() => {
+            }).fail((err) => {
+                console.log(err)
                 App.showErrorAlert(App.ERROR_404);
             }).always(function () {
                 page.element.loader.addClass("hide");
@@ -270,16 +269,21 @@
                 mainClass: 'mfp-fade',
                 removalDelay: 160,
                 preloader: false,
-
                 fixedContentPos: false
             });
         }
 
         page.dialogs.element.modalCreateProduct.on("hidden.bs.modal", function () {
             page.dialogs.element.frmProduct[0].reset();
-            page.dialogs.element.btnClearImagePreview.click();
+            page.dialogs.element.btnClearImagePreview.trigger("click");
         });
 
+        page.dialogs.element.clearImagePreview = () => {
+            page.dialogs.element.imageFile.val("");
+            page.dialogs.element.imagePreview.css("display", "none");
+            page.dialogs.element.wrapper.removeClass("active");
+            page.dialogs.element.wrapperContent.css("opacity", 1);
+        }
 
         page.initializeControlEvent = () => {
 
@@ -299,18 +303,22 @@
             });
 
             page.dialogs.element.divImagePreview.on("click", function () {
-                page.dialogs.element.imageFile.click();
+                page.dialogs.element.imageFile.trigger("click");
             });
 
             page.dialogs.element.imageFile.on("change", function () {
                 page.dialogs.commands.changeImagePreview();
             });
 
+            page.dialogs.element.btnClearImagePreview.on("click", function () {
+                page.dialogs.element.clearImagePreview();
+            });
+
             page.commands.handleImagePopup();
 
         }
 
-        $(document).ready(function () {
+        $(function () {
 
             page.loadData.getAllProducts().then(function () {
                 page.initializeControlEvent();

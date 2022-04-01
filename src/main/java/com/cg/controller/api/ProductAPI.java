@@ -6,12 +6,16 @@ import com.cg.model.Product;
 import com.cg.model.dto.IProductDTO;
 import com.cg.model.dto.ProductDTO;
 import com.cg.service.ProductService;
+import com.cg.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +26,11 @@ import java.util.Optional;
 public class ProductAPI {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
+
+    @Autowired
+    private AppUtils appUtils;
+
 
     @GetMapping
     public ResponseEntity<Iterable<?>> findAll() {
@@ -41,7 +49,13 @@ public class ProductAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(ProductDTO productDTO) {
+    public ResponseEntity<?> create(@Validated ProductDTO productDTO, BindingResult bindingResult) {
+
+//        if (productDTO.getFile().getOriginalFilename() == null)
+//            throw new DataInputException("File is required, please check the information again");
+
+        if (bindingResult.hasErrors())
+            return appUtils.mapErrorToResponse(bindingResult);
 
         try {
             Product createdProduct = productService.create(productDTO);

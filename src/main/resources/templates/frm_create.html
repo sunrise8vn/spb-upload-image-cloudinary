@@ -29,31 +29,29 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <section>
-                                    <div class="form-group row" style="justify-content: center;">
-                                        <div class="wrapper">
-                                            <div class="image-preview">
-                                                <img src="" alt="">
+                                    <div class="wrapper">
+                                        <div class="image-preview">
+                                            <canvas id="canvas"></canvas>
+                                        </div>
+                                        <div class="content">
+                                            <div class="icon">
+                                                <i class="fas fa-cloud-upload-alt"></i>
                                             </div>
-                                            <div class="content">
-                                                <div class="icon">
-                                                    <i class="fas fa-cloud-upload-alt"></i>
-                                                </div>
-                                                <div class="text">
-                                                    No file chosen, yet!
-                                                </div>
-                                                <div class="text">
-                                                    Max file size = 2MB
-                                                </div>
+                                            <div class="text">
+                                                No file chosen, yet!
                                             </div>
-                                            <div id="btnClearImagePreview">
-                                                <i class="fas fa-times"></i>
-                                            </div>
-                                            <div class="file-name">
-                                                File name here
+                                            <div class="text">
+                                                Max file size = 2MB
                                             </div>
                                         </div>
-                                        <input id="imageFile" type="file" accept="image/jpeg, image/png" multiple hidden />
+                                        <div class="clear-image-preview">
+                                            <i class="fas fa-times"></i>
+                                        </div>
+                                        <div class="file-name">
+                                            Change image
+                                        </div>
                                     </div>
+                                    <input type="file" id="imageFile" accept="image/jpeg, image/png" hidden />
                                 </section>
                             </div>
                         </fieldset>

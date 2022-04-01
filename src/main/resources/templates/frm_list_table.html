@@ -2,21 +2,21 @@
 
 <th:block th:fragment="frm_list_table">
     <textarea style="display:none" id="tempProduct">
-            <tr id="{0}">
-                <td class="text-center">{0}</td>
-                <td>{1}</td>
-                <td>{2}</td>
-                <td class="text-center">
-                    <a class="{5}" href="{3}" data-mfp-src="{3}" title="{1}">
-                        <img src="{4}" alt="{1}">
-                    </a>
-                </td>
-                <td class="text-center">
-                    <a class="btn btn-outline-danger delete" data-id="{0}" >
-                        <i class="far fa-trash-alt"></i>
-                        Delete
-                    </a>
-                </td>
-            </tr>
-        </textarea>
+        <tr id="{0}">
+            <td class="text-center">{0}</td>
+            <td>{1}</td>
+            <td>{2}</td>
+            <td class="text-center">
+                <a class="{5}" href="{3}" data-mfp-src="{3}" title="{1}">
+                    <img src="{4}" alt="{1}">
+                </a>
+            </td>
+            <td class="text-center">
+                <a class="btn btn-outline-danger delete" data-id="{0}" >
+                    <i class="far fa-trash-alt"></i>
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </textarea>
 </th:block>

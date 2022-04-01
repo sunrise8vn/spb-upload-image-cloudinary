@@ -1,18 +1,23 @@
 package com.cg.model.dto;
 
-import com.cg.model.Product;
-import com.cg.model.ProductMedia;
+import com.cg.model.*;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+
 
 @Data
-public class ProductDTO {
+public class ProductDTO implements Serializable {
 
     private String id;
 
     private String name;
 
+    @NotBlank(message = "Description is required")
     private String description;
 
     private String fileName;
@@ -25,6 +30,10 @@ public class ProductDTO {
 
     private String fileProductId;
 
+    @Valid
+    @UploadFileRequired
+    @UploadFileNotEmpty
+    @UploadFileMaxSize
     private MultipartFile file;
 
     private String fileType;
