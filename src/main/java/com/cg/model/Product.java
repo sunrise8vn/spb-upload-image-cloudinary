@@ -33,4 +33,15 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<ProductMedia> productMedia;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ts=" + ts +
+                ", productMedia=" + productMedia +
+                '}';
+    }
 }

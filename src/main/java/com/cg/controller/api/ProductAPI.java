@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +49,6 @@ public class ProductAPI {
 
     @PostMapping
     public ResponseEntity<?> create(@Validated ProductDTO productDTO, BindingResult bindingResult) {
-
-//        if (productDTO.getFile().getOriginalFilename() == null)
-//            throw new DataInputException("File is required, please check the information again");
 
         if (bindingResult.hasErrors())
             return appUtils.mapErrorToResponse(bindingResult);

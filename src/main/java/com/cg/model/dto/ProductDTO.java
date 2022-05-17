@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ public class ProductDTO implements Serializable {
 
     private String id;
 
+    @NotBlank(message = "Name is required")
     private String name;
 
     @NotBlank(message = "Description is required")
@@ -30,10 +32,6 @@ public class ProductDTO implements Serializable {
 
     private String fileProductId;
 
-    @Valid
-    @UploadFileRequired
-    @UploadFileNotEmpty
-    @UploadFileMaxSize
     private MultipartFile file;
 
     private String fileType;
